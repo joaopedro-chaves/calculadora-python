@@ -1,140 +1,158 @@
+# Imports
 from tkinter import *
-from tkinter import ttk
 
-# Cores
-color1 = "#202020"
-color2 = "#ffffff"
-color3 = "#323232"
-color4 = "#3c3c3c"
-color5 = "#4cc2ff"
-color6 = "#47b1e8"
-color7 = "#000000"
+# Colors
+background = "#202020"
+text = "#ffffff"
+onSuface = "#383838"
+onSufaceVariant = "#323232"
+selected = "#4d4d4d"
+accentColor = "#327DA6"
+accentColorSelected = "#419ED1"
+black = "#000000"
 
-# Configuração da janela
+# Fonts
+fontTitle = "Arial 24" 
+fontButton = "Arial 11 bold"
+
+# Screen Size
+width = 348
+height = 348
+
+# Window
 window = Tk()
-window.iconbitmap("./assets/img/icon.ico")
-window.title("Calculadora")
-window.geometry("323x395")
-window.config(bg=color1)
+window.iconbitmap("./assets/img/icon.ico") # Icon
+window.title("Sample Calculator")
+window.geometry(f"{int(width)}x{int(height)}")
+window.resizable(False, False) # Non resizable
+window.config(bg=background)
 
-# Fremes
-frameDisplay = Frame(window, width=323, height=120, bg=color2)
-frameDisplay.grid(row=0, column=0)
+# Frames
+frameDisplay = Frame(window, width=int(width), height=int(height * 1/6), bg=background)
+frameDisplay.pack(side="top", fill="x")
 
-frameKeyboard = Frame(window, width=323, height=250, bg=color1)
-frameKeyboard.grid(row=1, column=0)
+frameKeyboard = Frame(window, width=int(width), height=int(height * 5/6), bg=background)
+frameKeyboard.pack(side="bottom", fill="both", expand=True)
 
-frameFooter = Frame(window, width=323, height=15, bg=color1)
-frameFooter.grid(row=2, column=0)
-
-
-# Funções
+# Functions
 showValue = StringVar()
 values = ''
 
+## Update Display
+def updateDisplay(text_to_show):
+    length = len(text_to_show)
+
+    if length > 20:
+        display_text = text_to_show[:17] + "..."
+    else:
+        display_text = text_to_show
+        
+    showValue.set(display_text)
+
+## Input Value
 def inputValue(event):
-   global values
-   
-   values = values + str(event)
-   
-   #Exibe o resultado na tela
-   showValue.set(values)
+    global values
+    if values == "Error":
+        values = ""
+    if event == '%':
+        try:
+            current_val = float(eval(values))
+            values = str(current_val / 100)
+        except Exception:
+            pass
+    else:
+        values = values + str(event)
+    ### Displays the result on the screen
+    updateDisplay(values)
 
-
+## Calculate
 def calculate():
-   global values
-   
-   result = eval(values)
-   showValue.set(str(result))
-   values = str(result)
+    global values
+    try:
+        result = eval(values)
+        updateDisplay(str(result))
+        values = str(result)
+    except ZeroDivisionError:
+        updateDisplay("Error")
+        values = "Error"
+    except SyntaxError:
+        updateDisplay("Error")
+        values = "Error"
+    except Exception:
+        updateDisplay("Error")
+        values = "Error"
 
-
+## Clean
 def clean():
-   global values
-   
-   values = ''
-   showValue.set('')
-   
+    global values
+    values = ''
+    updateDisplay('')
 
 # Label
-labelScreen = Label(frameDisplay, textvariable=showValue, bg=color1, fg=color2, font=("Ivy 24 bold"), width=16, padx=8, pady=40, justify="right", anchor="e", relief="flat")
+labelScreen = Label(frameDisplay, textvariable=showValue, bg=background, fg=text, font=(fontTitle), width=16, padx=8, pady=40, justify="right", anchor="e", relief="flat")
 labelScreen.pack()
 
-labelFooter = Label(frameFooter, text="V.: 1.3.2", bg=color1, fg=color2, font=("Ivy 9"), width=44, padx=8, justify="right", anchor="e")
-labelFooter.pack()
+# Buttons
 
+## Row 0
+btnClean = Button(frameKeyboard, command = clean, text="C", width=19, height=2, bg=onSufaceVariant, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnClean.grid(row=0, column=0, columnspan=2)
 
-# Botões
-# btn19 = Button(frameKeyboard, command = cleanStore, text="MC", width=7, height=2, bg=color1, fg=color2, font=("Ivy 10 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-# btn19.place(x=0, y=5)
+btnPerce = Button(frameKeyboard, command = lambda: inputValue('%'), text="%", width=8, height=2, bg=onSufaceVariant, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnPerce.grid(row=0, column=2)
 
-# btn19 = Button(frameKeyboard, command = useStore, text="MR", width=7, height=2, bg=color1, fg=color2, font=("Ivy 10 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-# btn19.place(x=65, y=5)
+btnDiv = Button(frameKeyboard, command = lambda: inputValue('/'), text="/", width=8, height=2, bg=onSufaceVariant, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnDiv.grid(row=0, column=3)
 
-# btn20 = Button(frameKeyboard, command = cleanStore, text="M-", width=7, height=2, bg=color1, fg=color2, font=("Ivy 10 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-# btn20.place(x=130, y=5)
+## Row 1
+btnSeven = Button(frameKeyboard, command = lambda: inputValue('7'), text="7", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnSeven.grid(row=1, column=0)
 
-# btn21 = Button(frameKeyboard, command = storeResult, text="M+", width=7, height=2, bg=color1, fg=color2, font=("Ivy 10 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-# btn21.place(x=195, y=5)
+btnEight = Button(frameKeyboard, command = lambda: inputValue('8'), text="8", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnEight.grid(row=1, column=1)
 
+btnNine = Button(frameKeyboard, command = lambda: inputValue('9'), text="9", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnNine.grid(row=1, column=2)
 
-btn1 = Button(frameKeyboard, command = clean, text="C", width=17, height=2, bg=color3, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn1.place(x=0, y=0)
+btnMult = Button(frameKeyboard, command = lambda: inputValue('*'), text="x", width=8, height=2, bg=onSufaceVariant, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnMult.grid(row=1, column=3)
 
-btn2 = Button(frameKeyboard, command = lambda: inputValue('%'), text="%", width=8, height=2, bg=color3, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn2.place(x=162, y=0)
+## Row 2
+btnFour = Button(frameKeyboard, command = lambda: inputValue('4'), text="4", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnFour.grid(row=2, column=0)
 
-btn3 = Button(frameKeyboard, command = lambda: inputValue('/'), text="/", width=8, height=2, bg=color3, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn3.place(x=243, y=0)
+btnFive = Button(frameKeyboard, command = lambda: inputValue('5'), text="5", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnFive.grid(row=2, column=1)
 
+btnSix = Button(frameKeyboard, command = lambda: inputValue('6'), text="6", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnSix.grid(row=2, column=2)
 
-btn4 = Button(frameKeyboard, command = lambda: inputValue('7'), text="7", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn4.place(x=0, y=49)
+btnSub = Button(frameKeyboard, command = lambda: inputValue('-'), text="-", width=8, height=2, bg=onSufaceVariant, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnSub.grid(row=2, column=3)
 
-btn5 = Button(frameKeyboard, command = lambda: inputValue('8'), text="8", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn5.place(x=81, y=49)
+## Row 3
+btnOne = Button(frameKeyboard, command = lambda: inputValue('1'), text="1", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnOne.grid(row=3, column=0)
 
-btn6 = Button(frameKeyboard, command = lambda: inputValue('9'), text="9", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn6.place(x=162, y=49)
+btnTwo = Button(frameKeyboard, command = lambda: inputValue('2'), text="2", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnTwo.grid(row=3, column=1)
 
-btn7 = Button(frameKeyboard, command = lambda: inputValue('*'), text="x", width=8, height=2, bg=color3, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn7.place(x=243, y=49)
+btnTree = Button(frameKeyboard, command = lambda: inputValue('3'), text="3", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnTree.grid(row=3, column=2)
 
+btnPlus = Button(frameKeyboard, command = lambda: inputValue('+'), text="+", width=8, height=2, bg=onSufaceVariant, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnPlus.grid(row=3, column=3)
 
-btn8 = Button(frameKeyboard, command = lambda: inputValue('4'), text="4", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn8.place(x=0, y=98)
+## Row 4
+btnZero = Button(frameKeyboard, command = lambda: inputValue('0'), text="0", width=19, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnZero.grid(row=4, column=0, columnspan=2)
 
-btn9 = Button(frameKeyboard, command = lambda: inputValue('5'), text="5", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn9.place(x=81, y=98)
+btnDot = Button(frameKeyboard, command = lambda: inputValue('.'), text=".", width=8, height=2, bg=onSuface, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=selected, activeforeground=text, highlightthickness=0, borderwidth=0)
+btnDot.grid(row=4, column=2)
 
-btn10 = Button(frameKeyboard, command = lambda: inputValue('6'), text="6", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn10.place(x=162, y=98)
+btnEqual = Button(frameKeyboard, command = calculate, text="=", width=8, height=2, bg=accentColor, fg=text, font=(fontButton), relief="flat", overrelief="raised", activebackground=accentColorSelected, activeforeground=black, highlightthickness=0, borderwidth=0)
+btnEqual.grid(row=4, column=3)
 
-btn11 = Button(frameKeyboard, command = lambda: inputValue('-'), text="-", width=8, height=2, bg=color3, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn11.place(x=243, y=98)
-
-
-btn12 = Button(frameKeyboard, command = lambda: inputValue('1'), text="1", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn12.place(x=0, y=147)
-
-btn13 = Button(frameKeyboard, command = lambda: inputValue('2'), text="2", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn13.place(x=81, y=147)
-
-btn14 = Button(frameKeyboard, command = lambda: inputValue('3'), text="3", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn14.place(x=162, y=147)
-
-btn15 = Button(frameKeyboard, command = lambda: inputValue('+'), text="+", width=8, height=2, bg=color3, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color4, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn15.place(x=243, y=147)
-
-
-btn16 = Button(frameKeyboard, command = lambda: inputValue('0'), text="0", width=17, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn16.place(x=0, y=196)
-
-btn17 = Button(frameKeyboard, command = lambda: inputValue('.'), text=".", width=8, height=2, bg=color4, fg=color2, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color3, activeforeground=color2, highlightthickness=0, borderwidth=0)
-btn17.place(x=162, y=196)
-
-btn18 = Button(frameKeyboard, command = calculate, text="=", width=8, height=2, bg=color5, fg=color7, font=("Ivy 11 bold"), relief="flat", overrelief="raised", activebackground=color6, activeforeground=color7, highlightthickness=0, borderwidth=0)
-btn18.place(x=243, y=196)
-
+# -----
 
 window.mainloop()

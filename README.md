@@ -8,8 +8,8 @@
 
 Calculadora simples em Python com interface gráfica.
 
-## :hammer: Funcionalidades do projeto
-- `Calculadora simples:` calculadora simples para cálculos de soma, subtração, divisão e multiplicação.
+## Funcionalidades do projeto
+- `Calculadora simples:` calculadora simples para cálculos de soma, subtração, divisão, multiplicação e porcentagem.
 
 <br>
 <div display: inline_block align="center">
@@ -17,10 +17,21 @@ Calculadora simples em Python com interface gráfica.
     <img src="./assets/screenshot/screenshot2.png" alt="Screenshot 2"/>
 </div>
 
-## :file_folder: Acesso ao projeto
-Você pode [acessar o código-fonte do projeto](https://github.com/GabrielSchiavo/calculadora-python) ou [baixá-lo](https://github.com/GabrielSchiavo/calculadora-python/archive/refs/heads/main.zip).
+## Acesso ao projeto original
+Esse é um fork do projeto original. O projeto original pode ser [acessado aqui](https://github.com/GabrielSchiavo/calculadora-python).
 
-## 	:hammer_and_wrench: Abrir e rodar o projeto
+### O que foi alterado
++ Novos nomes para as variáveis
++ Mudanças visuais: Cores, fontes, tamanho da janela fixo, atualização constante do display para equações longas
++ Lógica para o botão porcentagem
++ Mensagens de erro quando tenta dividir por 0 ou insere uma expressão inválida
++ Botões em grade (grid)
+- Retirado a importação ttk
+
+### Appimage (linux) disponível na pagina de releases
+
+
+## Abrir e rodar o projeto
 Após baixar o projeto, você pode abrir com o Visual Studio Code. Para o projeto funcionar você deve ter configurado no seu PC:
 
 * Python >= 3.10.5
@@ -32,6 +43,6 @@ python calculadora.py
 
 Agora o projeto está pronto para ser utilizado.
 
-## :white_check_mark: Tecnologias utilizadas
+## Tecnologias utilizadas
 * `Python - 3.10.5`
 * `Tkinter - 8.6`
