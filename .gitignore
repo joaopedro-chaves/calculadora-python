@@ -1,0 +1,5 @@
+# Virtual Environment
+.venv/
+
+# Executables
+Calculadora.AppImage

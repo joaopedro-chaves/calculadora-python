@@ -1,4 +1,41 @@
 # Imports
+import os
+
+# Tcl/Tk environment variables for AppImage
+def _setup_tcl_tk_env():
+    tcl_paths = [
+        '/usr/share/tcltk/tcl8.6',
+        '/usr/share/tcl8.6',
+        '/usr/lib/tcl8.6',
+        '/usr/lib64/tcl8.6',
+        '/usr/share/tcltk/tcl8.5',
+        '/usr/share/tcl8.5',
+        '/usr/lib/tcl8.5'
+    ]
+    tk_paths = [
+        '/usr/share/tcltk/tk8.6',
+        '/usr/share/tk8.6',
+        '/usr/lib/tk8.6',
+        '/usr/lib64/tk8.6',
+        '/usr/share/tcltk/tk8.5',
+        '/usr/share/tk8.5',
+        '/usr/lib/tk8.5'
+    ]
+    
+    if 'TCL_LIBRARY' not in os.environ or not os.path.exists(os.path.join(os.environ['TCL_LIBRARY'], 'init.tcl')):
+        for path in tcl_paths:
+            if os.path.exists(os.path.join(path, 'init.tcl')):
+                os.environ['TCL_LIBRARY'] = path
+                break
+                
+    if 'TK_LIBRARY' not in os.environ or not os.path.exists(os.path.join(os.environ['TK_LIBRARY'], 'tk.tcl')):
+        for path in tk_paths:
+            if os.path.exists(os.path.join(path, 'tk.tcl')):
+                os.environ['TK_LIBRARY'] = path
+                break
+
+_setup_tcl_tk_env()
+
 from tkinter import *
 
 # Colors
@@ -158,4 +195,8 @@ btnEqual.grid(row=4, column=3)
 
 # -----
 
-window.mainloop()
+def main():
+    window.mainloop()
+
+if __name__ == "__main__":
+    main()
