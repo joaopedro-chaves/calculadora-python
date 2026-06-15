@@ -14,7 +14,6 @@ Calculadora simples em Python com interface gráfica.
 <br>
 <div display: inline_block align="center">
     <img src="./assets/screenshot/screenshot1.png" alt="Screenshot 1"/>
-    <img src="./assets/screenshot/screenshot2.png" alt="Screenshot 2"/>
 </div>
 
 ## Acesso ao projeto original
