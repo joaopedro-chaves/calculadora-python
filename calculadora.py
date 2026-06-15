@@ -21,7 +21,10 @@ height = 348
 
 # Window
 window = Tk()
-window.iconbitmap("./assets/img/icon.ico") # Icon
+try:
+    window.iconbitmap("./assets/img/icon.ico") # Icon
+except Exception:
+    pass
 window.title("Sample Calculator")
 window.geometry(f"{int(width)}x{int(height)}")
 window.resizable(False, False) # Non resizable

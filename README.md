@@ -18,18 +18,17 @@ Calculadora simples em Python com interface gráfica.
 </div>
 
 ## Acesso ao projeto original
-Esse é um fork do projeto original. O projeto original pode ser [acessado aqui](https://github.com/GabrielSchiavo/calculadora-python).
+Esse é um fork do projeto original de [GabrielSchiavo](https://github.com/GabrielSchiavo). O projeto original pode ser [acessado aqui](https://github.com/GabrielSchiavo/calculadora-python).
 
 ### O que foi alterado
-+ Novos nomes para as variáveis
-+ Mudanças visuais: Cores, fontes, tamanho da janela fixo, atualização constante do display para equações longas
-+ Lógica para o botão porcentagem
-+ Mensagens de erro quando tenta dividir por 0 ou insere uma expressão inválida
-+ Botões em grade (grid)
-- Retirado a importação ttk
++ Novos nomes para as variáveis, mas a lógica foi mantida.
++ Mudanças visuais: Cores, fontes, tamanho da janela fixo, atualização constante do display para equações longas.
++ Lógica para o botão porcentagem.
++ Mensagens de erro quando tenta dividir por 0 ou insere uma expressão inválida.
++ Botões em grade (grid).
+- Retirado a importação ttk.
 
 ### Appimage (linux) disponível na pagina de releases
-
 
 ## Abrir e rodar o projeto
 Após baixar o projeto, você pode abrir com o Visual Studio Code. Para o projeto funcionar você deve ter configurado no seu PC:
